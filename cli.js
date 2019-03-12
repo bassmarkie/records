@@ -56,7 +56,7 @@ process.stdin.on('data', data => {
   } else if (cmd === '2') {
     output = birthSort(cache)
   } else if (cmd === '3') {
-    output = []
+    output = cache.sort(lastNameSort).reverse()
   } else process.stdout.write('invalid selection')
   console.log(output)
   // process.stdout.write(output)
@@ -65,4 +65,12 @@ process.stdin.on('data', data => {
   )
 })
 
-module.exports = { comma, pipe, space, genderSort, birthSort, cache }
+module.exports = {
+  comma,
+  pipe,
+  space,
+  genderSort,
+  birthSort,
+  cache,
+  lastNameSort
+}
