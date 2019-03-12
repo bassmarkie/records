@@ -1,16 +1,22 @@
 const { expect } = require('chai')
-const records = require('./cli.js')
+const { comma, pipe, space, genderSort, cache } = require('./cli.js')
 
 describe('FS Read File', () => {
   it('accepts comma-delimited', () => {
-    expect(records.comma.join(' ')).to.equal('Bosco Ava Female Red 05/05/1965')
+    expect(comma.join(' ')).to.equal('Cooper Ava Female Red 05/05/1965')
   })
   it('accepts pipe-delimited', () => {
-    expect(records.pipe.join(' ')).to.equal('Brown John Male Green 01/10/1980')
+    expect(pipe.join(' ')).to.equal('Brown John Male Green 01/10/1980')
   })
   it('accepts space-delimited', () => {
-    expect(records.space.join(' ')).to.equal(
-      'Cooper Linda Female Purple 10/03/1975'
-    )
+    expect(space.join(' ')).to.equal('Bosco Linda Female Purple 10/03/1975')
   })
+})
+describe('Option 1', () => {
+  it('sort by gender, then last name ascending', () =>
+    expect(genderSort(cache)).to.eql([
+      ['Bosco', 'Linda', 'Female', 'Purple', '10/03/1975'],
+      ['Cooper', 'Ava', 'Female', 'Red', '05/05/1965'],
+      ['Brown', 'John', 'Male', 'Green', '01/10/1980']
+    ]))
 })
