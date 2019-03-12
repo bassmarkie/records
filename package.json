@@ -1,0 +1,26 @@
+{
+  "name": "records",
+  "version": "1.0.0",
+  "description": "Record I/O",
+  "main": "cli.js",
+  "scripts": {
+    "test": "mocha *.spec.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bassmarkie/records.git"
+  },
+  "author": "Mark Bassett",
+  "license": "MIT",
+  "bin": {
+    "records-cli": "./cli.js"
+  },
+  "bugs": {
+    "url": "https://github.com/bassmarkie/records/issues"
+  },
+  "homepage": "https://github.com/bassmarkie/records#readme",
+  "dependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^6.0.2"
+  }
+}
