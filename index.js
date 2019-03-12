@@ -8,5 +8,5 @@ app.use(express.urlencoded({ extended: true }))
 app.use('/records', require('./api'))
 
 module.exports = app.listen(PORT, () =>
-  console.log(`listening on port http://localhost:PORT`)
+  console.log(`listening on port http://localhost:${PORT}`)
 )

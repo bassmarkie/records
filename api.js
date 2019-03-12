@@ -48,14 +48,7 @@ router.post('/', (req, res, next) => {
   }
 })
 
-router.get('/', (req, res, next) => {
-  try {
-    res.json(newCache)
-  } catch (err) {
-    next(err)
-  }
-})
-
+// could have used req.params to combine into one route.
 router.get('/gender', (req, res, next) => {
   const output = genderSort(newCache)
   try {
