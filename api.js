@@ -1,17 +1,48 @@
 const router = require('express').Router()
-const {
-  comma,
-  pipe,
-  space,
-  genderSort,
-  cache,
-  birthSort,
-  lastNameSort
-} = require('./cli.js')
+const { genderSort, cache, birthSort, lastNameSort } = require('./cli.js')
 
-router.post('/', async (req, res, next) => {
+let newCache = cache
+
+const sanitize = post => {
+  let newPost = []
+  if (!Array.isArray(post)) {
+    post = Object.keys(post)
+  }
+  for (let i = 0; i < post.length; i++) {
+    if (post[i].toString().includes(',')) {
+      newPost.push(
+        post[i]
+          .toString()
+          .trim()
+          .split(', ')
+      )
+    } else if (post[i].toString().includes('|')) {
+      newPost.push(
+        post[i]
+          .toString()
+          .trim()
+          .split(' | ')
+      )
+    } else {
+      newPost.push(
+        post[i]
+          .toString()
+          .trim()
+          .split(' ')
+      )
+    }
+  }
+  newPost.forEach(x => {
+    newCache.push(x)
+  })
+  return newPost
+}
+
+router.post('/', (req, res, next) => {
+  let data = req.body
+  let post = sanitize(data)
   try {
-    res.json()
+    res.status(201).json(post)
   } catch (err) {
     next(err)
   }
@@ -19,14 +50,14 @@ router.post('/', async (req, res, next) => {
 
 router.get('/', (req, res, next) => {
   try {
-    res.json(cache)
+    res.json(newCache)
   } catch (err) {
     next(err)
   }
 })
 
 router.get('/gender', (req, res, next) => {
-  const output = genderSort(cache)
+  const output = genderSort(newCache)
   try {
     res.json(output)
   } catch (err) {
@@ -35,7 +66,7 @@ router.get('/gender', (req, res, next) => {
 })
 
 router.get('/birthdate', (req, res, next) => {
-  const output = birthSort(cache)
+  const output = birthSort(newCache)
   try {
     res.json(output)
   } catch (err) {
@@ -44,7 +75,7 @@ router.get('/birthdate', (req, res, next) => {
 })
 
 router.get('/name', (req, res, next) => {
-  const output = cache.sort(lastNameSort)
+  const output = newCache.sort(lastNameSort)
   try {
     res.json(output)
   } catch (err) {
