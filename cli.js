@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 'use strict'
-const [, , ...args] = process.argv
 
 const fs = require('fs')
 const comma = fs
@@ -20,7 +19,6 @@ const space = fs
   .split(' ')
 
 const cache = [comma, pipe, space]
-const errors = []
 
 const lastNameSort = (a, b) => {
   if (a[0] < b[0]) return -1
@@ -40,6 +38,13 @@ const genderSort = array => {
   return [...females, ...males]
 }
 
+const birthSort = array => {
+  array.sort((a, b) => {
+    return new Date(a[4]) - new Date(b[4])
+  })
+  return array
+}
+
 process.stdout.write(
   'Sort By Gender - 1 \nSort By Birth Date - 2 \nSort By Surname - 3 \n> '
 )
@@ -48,8 +53,10 @@ process.stdin.on('data', data => {
   let output = []
   if (cmd === '1') {
     output = genderSort(cache)
-  } else if (cmd > 1 && cmd < 4) {
-    process.stdout.write(`${comma} \n${space} \n${pipe}`)
+  } else if (cmd === '2') {
+    output = birthSort(cache)
+  } else if (cmd === '3') {
+    output = []
   } else process.stdout.write('invalid selection')
   console.log(output)
   // process.stdout.write(output)
@@ -58,4 +65,4 @@ process.stdin.on('data', data => {
   )
 })
 
-module.exports = { comma, pipe, space, genderSort, cache }
+module.exports = { comma, pipe, space, genderSort, birthSort, cache }
