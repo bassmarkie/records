@@ -1,5 +1,13 @@
 const { expect } = require('chai')
-const { comma, pipe, space, genderSort, cache, birthSort } = require('./cli.js')
+const {
+  comma,
+  pipe,
+  space,
+  genderSort,
+  cache,
+  birthSort,
+  lastNameSort
+} = require('./cli.js')
 
 describe('FS Read File', () => {
   it('accepts comma-delimited', () => {
@@ -9,14 +17,14 @@ describe('FS Read File', () => {
     expect(pipe.join(' ')).to.equal('Brown John Male Green 01/10/1980')
   })
   it('accepts space-delimited', () => {
-    expect(space.join(' ')).to.equal('Bosco Linda Female Purple 10/03/1980')
+    expect(space.join(' ')).to.equal('Tosco Linda Female Purple 10/03/1980')
   })
 })
 describe('Option 1', () => {
   it('sort by gender, then last name ascending', () =>
     expect(genderSort(cache)).to.eql([
-      ['Bosco', 'Linda', 'Female', 'Purple', '10/03/1980'],
       ['Cooper', 'Ava', 'Female', 'Red', '05/05/1965'],
+      ['Tosco', 'Linda', 'Female', 'Purple', '10/03/1980'],
       ['Brown', 'John', 'Male', 'Green', '01/10/1980']
     ]))
 })
@@ -26,6 +34,15 @@ describe('Option 2', () => {
     expect(birthSort(cache)).to.eql([
       ['Cooper', 'Ava', 'Female', 'Red', '05/05/1965'],
       ['Brown', 'John', 'Male', 'Green', '01/10/1980'],
-      ['Bosco', 'Linda', 'Female', 'Purple', '10/03/1980']
+      ['Tosco', 'Linda', 'Female', 'Purple', '10/03/1980']
+    ]))
+})
+
+describe('Option 3', () => {
+  it('sort by last name, descending', () =>
+    expect(cache.sort(lastNameSort).reverse()).to.eql([
+      ['Tosco', 'Linda', 'Female', 'Purple', '10/03/1980'],
+      ['Cooper', 'Ava', 'Female', 'Red', '05/05/1965'],
+      ['Brown', 'John', 'Male', 'Green', '01/10/1980']
     ]))
 })
